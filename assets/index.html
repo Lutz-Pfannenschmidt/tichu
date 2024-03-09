@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>🐉 Tichu 🐉</title>
+  <script src="/wasm_exec.js"></script>
+  <script>
+    const go = new Go();
+    WebAssembly.instantiateStreaming(fetch("/main.wasm"), go.importObject).then((result) => {
+      go.run(result.instance);
+    });
+
+  </script>
+  <style>
+    body {
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+</html>
