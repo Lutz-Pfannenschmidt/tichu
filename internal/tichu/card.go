@@ -16,7 +16,7 @@ func (c CardType) Value() int {
 }
 
 func (c CardType) IsSpecial() bool {
-	return c == DOG || c == MAHJONG || c == PHEONIX || c == DRAGON
+	return c == DOG || c == MAHJONG || c == PHOENIX || c == DRAGON
 }
 
 func (c CardType) Points() int {
@@ -28,7 +28,7 @@ func (c CardType) Points() int {
 		return 10
 	case DRAGON:
 		return 25
-	case PHEONIX:
+	case PHOENIX:
 		return -25
 	}
 	return 0
@@ -70,7 +70,7 @@ var cardStrings = map[CardType]string{
 	QUEEN:   "Q",
 	KING:    "K",
 	ACE:     "A",
-	PHEONIX: "PHEONIX",
+	PHOENIX: "PHOENIX",
 	DRAGON:  "DRAGON",
 }
 
@@ -90,7 +90,7 @@ var cardValues = map[CardType]int{
 	QUEEN:   12,
 	KING:    13,
 	ACE:     14,
-	PHEONIX: -1,
+	PHOENIX: -1,
 	DRAGON:  25,
 }
 
@@ -110,6 +110,6 @@ const (
 	QUEEN
 	KING
 	ACE
-	PHEONIX
+	PHOENIX
 	DRAGON
 )
