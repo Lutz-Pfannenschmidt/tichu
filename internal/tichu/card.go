@@ -6,6 +6,33 @@ import (
 	"github.com/llgcode/draw2d/draw2dkit"
 )
 
+/*
+In the realm of Tichu, a game of delight,
+Lies a file named `card.go`, a coder's insight.
+A package it declares, for the game we adore,
+With imports it bears, from draw2d's store.
+
+A `CardType` it defines, an integer at heart,
+With methods it shines, playing its part.
+`String`, `Value`, `IsSpecial`, and `Points`,
+Each function refines, the card's various joints.
+
+A `Card` struct it presents, with `Type` and `Color`,
+A `Render` method it lends, making the game much fuller.
+It draws on a context, with coordinates given,
+A rounded rectangle, perfect and even.
+
+Maps for `cardStrings` and `values`, it provides,
+Mapping types to their meanings, where each card resides.
+Constants it defines, for each card in the game,
+From `DOG` to `DRAGON`, each with a name.
+
+So, this is `card.go`, a file so neat,
+Where the essence of Tichu, and Go language meet.
+A tale of cards, in code and in rhyme,
+A testament to the coder's time.
+*/
+
 // CardType represents the type of a card in the game of Tichu.
 type CardType int
 
