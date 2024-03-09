@@ -3,17 +3,20 @@ package tichu
 import "sort"
 
 type Combination struct {
-	Cards           []*Card
-	Base            int8
-	length          int8
-	level           int8
-	containsPhoenix bool
+	// the slice of cards that make up the combination
+	Cards []*Card
+	// the lowest value of the combination
+	Base int8
+	// the amount of different values in the combination
+	length int8
+	// the maximum amount of cards with the same value
+	width int8
 }
 
 // NewCombination creates a new Combination from a slice of cards.
 func NewCombination(cards []*Card) *Combination {
-	isLegal := true
 	containsSpecial := false
+	containsPhoenix := false
 
 	// sort the cards by value
 	sort.SliceStable(cards, func(i, j int) bool {
@@ -23,29 +26,87 @@ func NewCombination(cards []*Card) *Combination {
 	// new combination
 	res := &Combination{Cards: cards}
 
-	// create the combination
-	res.length = int8(len(cards))
-	res.Base = int8(cards[0].Type.Value())
-
-	amounts := map[int]int{}
-
-	for i := int8(0); i < res.length; i++ {
-		if cards[i].Type != PHOENIX {
-			amounts[cards[i].Type.Value()]++
-		}
-		if cards[i].Type.IsSpecial() {
-			containsSpecial = true
-		}
-	}
-
-	if containsSpecial && !res.containsPhoenix {
-		if len(cards) != 1 {
-			isLegal = false
-		}
-	}
-
-	if isLegal {
+	// if no cards, return empty (the player passes)
+	if len(cards) == 0 {
 		return res
 	}
-	return nil
+
+	// count the amount of each value
+	amounts := map[int]int{}
+
+	for i := range cards {
+		// only add the value if it is not a special card
+		if !cards[i].Type.IsSpecial() {
+			amounts[cards[i].Type.Value()]++
+		} else {
+			// if it is special card, set the flag
+			containsSpecial = true
+			// if it also is a phoenix, set the flag
+			if cards[i].Type == PHOENIX {
+				containsPhoenix = true
+			}
+		}
+	}
+
+	// start und ende bestimmen
+	start := 25
+	end := 0
+
+	for k := range amounts {
+		if k < start {
+			start = k
+		}
+		if k > end {
+			end = k
+		}
+	}
+
+	// Check if the Phoenix card is present in the combination
+	if containsPhoenix {
+		// If Phoenix is the only card, set the base value of the combination to -1 and return the combination
+		if len(cards) == 1 {
+			res.Base = -1
+			return res
+		}
+
+		// Initialize variables to track the minimum and maximum card values, and the key associated with the minimum value
+		min := 5
+		minKey := -1
+		max := 0
+		// Iterate over the range of card values
+		for i := start; i <= end; i++ {
+			// Update the minimum value and associated key if a lower value is found
+			if amounts[i] < min {
+				min = amounts[i]
+				minKey = i
+			}
+			// Update the maximum value if a higher value is found
+			if amounts[i] > max {
+				max = amounts[i]
+			}
+		}
+
+		// If the minimum and maximum values are equal and the start and end values are different, increment the value associated with the key that is one greater than the end value
+		if min == max && start != end {
+			amounts[end+1]++
+		} else {
+			// Otherwise, increment the value associated with the key that has the minimum value
+			amounts[minKey]++
+		}
+	}
+
+	// Set the length of the combination to the number of unique card values
+	res.length = int8(len(amounts))
+
+	// Set the width of the combination to the number of cards with the same value as the start value
+	res.width = int8(amounts[start])
+	// Iterate over the values in the amounts map
+	for _, v := range amounts {
+		// If any value is not equal to the width, return nil as the combination is not valid
+		if v != int(res.width) {
+			return nil
+		}
+	}
+
+	return res
 }
