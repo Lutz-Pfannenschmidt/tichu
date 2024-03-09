@@ -1,3 +1,4 @@
+// Package tichu provides the necessary types and functions for a game of Tichu.
 package tichu
 
 import (
@@ -5,20 +6,25 @@ import (
 	"github.com/llgcode/draw2d/draw2dkit"
 )
 
+// CardType represents the type of a card in the game of Tichu.
 type CardType int
 
+// String returns a string representation of the CardType.
 func (c CardType) String() string {
 	return cardStrings[c]
 }
 
+// Value returns the value of the CardType.
 func (c CardType) Value() int {
 	return cardValues[c]
 }
 
+// IsSpecial checks if the CardType is a special card in the game of Tichu.
 func (c CardType) IsSpecial() bool {
-	return c == DOG || c == MAHJONG || c == PHEONIX || c == DRAGON
+	return c == DOG || c == MAHJONG || c == PHOENIX || c == DRAGON
 }
 
+// Points returns the points associated with the CardType.
 func (c CardType) Points() int {
 	switch c {
 	case FIVE:
@@ -28,32 +34,29 @@ func (c CardType) Points() int {
 		return 10
 	case DRAGON:
 		return 25
-	case PHEONIX:
+	case PHOENIX:
 		return -25
 	}
 	return 0
 }
 
+// Card represents a card in the game of Tichu.
 type Card struct {
 	Type  CardType
 	Color CardColor
 }
 
+// Render draws the Card on a GraphicContext at the specified x and y coordinates.
 func (c *Card) Render(gc *draw2dimg.GraphicContext, x, y float64) {
 	gc.SetFillColor(c.Color.RGBA())
 	gc.SetStrokeColor(c.Color.RGBA())
 	gc.BeginPath()
 	draw2dkit.RoundedRectangle(gc, x, y, x+30, y+30, 5, 5)
-	// img, err := draw2dimg.LoadFromPngFile("")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// draw2dimg.DrawImage(img, draw.Image{})
-
 	gc.FillStroke()
 	gc.Close()
 }
 
+// cardStrings maps CardType values to their string representations.
 var cardStrings = map[CardType]string{
 	DOG:     "DOG",
 	MAHJONG: "MAHJONG",
@@ -70,10 +73,11 @@ var cardStrings = map[CardType]string{
 	QUEEN:   "Q",
 	KING:    "K",
 	ACE:     "A",
-	PHEONIX: "PHEONIX",
+	PHOENIX: "PHOENIX",
 	DRAGON:  "DRAGON",
 }
 
+// cardValues maps CardType values to their integer values.
 var cardValues = map[CardType]int{
 	DOG:     -1,
 	MAHJONG: 1,
@@ -90,10 +94,11 @@ var cardValues = map[CardType]int{
 	QUEEN:   12,
 	KING:    13,
 	ACE:     14,
-	PHEONIX: -1,
+	PHOENIX: -1,
 	DRAGON:  25,
 }
 
+// Constants representing the different types of cards in the game of Tichu.
 const (
 	DOG CardType = iota
 	MAHJONG
@@ -110,6 +115,6 @@ const (
 	QUEEN
 	KING
 	ACE
-	PHEONIX
+	PHOENIX
 	DRAGON
 )

@@ -48,6 +48,7 @@ When it's your turn, you may play a `single card`, a `pair`, a `triple`, a `full
 * A `triple` is three cards of the same rank.
 * A `full house` is a triple and a pair.
 * A `straight` are five or more cards of consecutive rank, regardless of suit/color
+* A `straight pair` is two or more pairs of at least two cards of consecutive rank, regardless of suit/color (2,2,3,3,4,4 or 6,6,6,6,7,7,7,7)
 * A `Bomb` is one of the following:
   * Four of a kind
   * A straight flush of at least five cards
