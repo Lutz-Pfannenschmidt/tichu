@@ -1,7 +1,7 @@
 # Tichu
 
 ### Tichu is a popular chinese card game.
-It is a trick-taking game, similar to games like Bridge or Skat. The game is played with a deck of 56 cards, consisting of the 52 cards of the standard French deck and four special cards. The game is played by four players in fixed partnerships, with partners sitting opposite each other. The game has a number of features that distinguish it from other card games, such as the ability to exchange cards, the different combinations of cards that can be played, and the special cards themselves.
+It is a trick-taking game, similar to games like Bridge or Skat. The game is played with a deck of 56 cards, consisting of the 52 cards of the standard French deck and four special cards. The game is played by four players in fixed partnerships, with partners sitting opposite each other.  
 
 ### how to play
 
