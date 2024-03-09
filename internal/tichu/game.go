@@ -4,6 +4,7 @@ type Game struct {
 	Teams [2]*Team
 	Deck  *Deck
 	Stack []*Combination
+	Wish  int
 }
 
 func NewGame(playerName1 string, playerName2 string, playerName3 string, playerName4 string) *Game {
