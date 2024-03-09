@@ -27,7 +27,7 @@ func TestCombCompressing(t *testing.T) {
 	fmt.Println(websocket.CompressCombination(&cards))
 	buffer := []*tichu.Card{
 		&tichu.Card{Type: tichu.NINE, Color: tichu.Red},
-		&tichu.Card{Type: tichu.PHEONIX, Color: tichu.Special},
+		&tichu.Card{Type: tichu.PHOENIX, Color: tichu.Special},
 		&tichu.Card{Type: tichu.ACE, Color: tichu.Green},
 		&tichu.Card{Type: tichu.THREE, Color: tichu.Blue},
 	}
