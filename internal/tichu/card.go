@@ -79,7 +79,7 @@ var cardStrings = map[CardType]string{
 
 // cardValues maps CardType values to their integer values.
 var cardValues = map[CardType]int{
-	DOG:     -1,
+	DOG:     0,
 	MAHJONG: 1,
 	TWO:     2,
 	THREE:   3,
