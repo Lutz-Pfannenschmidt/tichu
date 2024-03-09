@@ -31,6 +31,10 @@ func (ws *WebsocketServer) runBroadcaster() {
 	}
 }
 
+func runBroadcast(connection net.Conn) {
+
+}
+
 func (ws *WebsocketServer) runReceiver() {
 	receiver, err := net.Listen("tcp", ws.host+":"+ws.port+"/rec")
 	if err != nil {
@@ -50,6 +54,10 @@ func (ws *WebsocketServer) runReceiver() {
 		fmt.Println("client connected")
 		go runReceiver(connection)
 	}
+}
+
+func runReceiver(connection net.Conn) {
+
 }
 
 func (ws *WebsocketServer) start() {

@@ -3,14 +3,14 @@ package tichu
 type Game struct {
 	Teams [2]*Team
 	Deck  *Deck
-	Stack *Deck
+	Stack []*Combination
 }
 
 func NewGame() *Game {
 	g := &Game{
 		Teams: [2]*Team{},
 		Deck:  NewDeck(),
-		Stack: &Deck{},
+		Stack: []*Combination{},
 	}
 	g.Teams[0] = NewTeam(g)
 	g.Teams[1] = NewTeam(g)

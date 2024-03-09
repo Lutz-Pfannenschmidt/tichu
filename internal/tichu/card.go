@@ -44,11 +44,12 @@ func (c *Card) Render(gc *draw2dimg.GraphicContext, x, y float64) {
 	gc.SetStrokeColor(c.Color.RGBA())
 	gc.BeginPath()
 	draw2dkit.RoundedRectangle(gc, x, y, x+30, y+30, 5, 5)
-	img, err := draw2dimg.LoadFromPngFile("")
-	if err != nil {
-		panic(err)
-	}
-	draw2dimg.DrawImage()
+	// img, err := draw2dimg.LoadFromPngFile("")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// draw2dimg.DrawImage(img, draw.Image{})
+
 	gc.FillStroke()
 	gc.Close()
 }
