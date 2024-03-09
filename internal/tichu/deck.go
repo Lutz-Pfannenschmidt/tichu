@@ -18,7 +18,7 @@ var genericCards = []CardType{
 }
 
 var specialCards = []CardType{
-	DOG, MAHJONG, DRAGON, PHEONIX,
+	DOG, MAHJONG, DRAGON, PHOENIX,
 }
 
 // generate creates a new deck of cards
