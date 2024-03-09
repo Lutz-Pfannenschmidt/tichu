@@ -6,14 +6,14 @@ type Game struct {
 	Stack []*Combination
 }
 
-func NewGame() *Game {
+func NewGame(playerName1 string, playerName2 string, playerName3 string, playerName4 string) *Game {
 	g := &Game{
 		Teams: [2]*Team{},
 		Deck:  NewDeck(),
 		Stack: []*Combination{},
 	}
-	g.Teams[0] = NewTeam(g)
-	g.Teams[1] = NewTeam(g)
+	g.Teams[0] = NewTeam(g, 0, playerName1, playerName3)
+	g.Teams[1] = NewTeam(g, 1, playerName2, playerName4)
 	return g
 }
 
