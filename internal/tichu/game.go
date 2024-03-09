@@ -4,6 +4,7 @@ type Game struct {
 	Teams [2]*Team
 	Deck  *Deck
 	Stack []*Combination
+	Turn  int
 	Wish  int
 }
 

@@ -6,13 +6,72 @@ import (
 )
 
 func Compress(player *tichu.Player) []byte {
+	// H H H H H H H P P P P P P P aaaabbbb ccccpqrst wwwwxxxx 000000tt
+	// H = 1 byte of your hand cards
+	// P = 1 byte of the cards lying in the middle
+	// a = 1 bit of the count of hand cards of the opponent with lower game id
+	// b = 1 bit of the count of hand cards of the opponent with higher game id
+	// c = 1 bit of the count of hand cards of your teammate
+	// p = the bit representing whether the player with game id 0 has won tricks
+	// q = the bit representing whether the player with game id 1 has won tricks
+	// r = the bit representing whether the player with game id 2 has won tricks
+	// s = the bit representing whether the player with game id 3 has won tricks
+	// w = 1 bit of the wished Value
+	// x = 1 bit of the card value the phoenix became if it was played as single card
+	// t = 1 bit of the game id of the player whose turn it is
+
 	var res []byte
 
 	handCards := CompressCombination(&player.Hand)
 	res = append(res, handCards[:]...)
 
-	playedCards := CompressCombination(&player.Hand)
+	playedCards := CompressCombination(&player.Team.Game.Stack[len(player.Team.Game.Stack)].Cards)
 	res = append(res, playedCards[:]...)
+
+	ownTeam := player.Team
+	var teamMate *tichu.Player
+
+	if player.Team.Players[0] == player {
+		teamMate = player.Team.Players[1]
+	} else {
+		teamMate = player.Team.Players[0]
+	}
+
+	var oppositeTeam *tichu.Team
+
+	if player.Team.Game.Teams[0] == ownTeam {
+		oppositeTeam = player.Team.Game.Teams[1]
+	} else {
+		oppositeTeam = player.Team.Game.Teams[0]
+	}
+
+	oppPlayer1 := oppositeTeam.Players[0]
+	oppPlayer2 := oppositeTeam.Players[1]
+
+	oppHandCardsCount := byte((len(oppPlayer1.Hand) << 4) | len(oppPlayer2.Hand))
+	res = append(res, oppHandCardsCount)
+
+	teamMateCardCountAndTricks := byte(len(teamMate.Hand) << 4)
+
+	if len(oppPlayer1.Earnings) > 0 {
+		teamMateCardCountAndTricks |= 1 << oppPlayer1.ID
+	}
+	if len(oppPlayer2.Earnings) > 0 {
+		teamMateCardCountAndTricks |= 1 << oppPlayer2.ID
+	}
+	if len(teamMate.Earnings) > 0 {
+		teamMateCardCountAndTricks |= 1 << teamMate.ID
+	}
+	if len(player.Earnings) > 0 {
+		teamMateCardCountAndTricks |= 1 << player.ID
+	}
+
+	res = append(res, teamMateCardCountAndTricks)
+
+	wishAndPhoenixValue := byte(player.Team.Game.Wish<<4) | byte(player.Team.Game.Stack[len(player.Team.Game.Stack)].Base)
+	res = append(res, wishAndPhoenixValue)
+
+	res = append(res, byte(player.Team.Game.Turn&3))
 
 	return res
 }
