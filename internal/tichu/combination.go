@@ -108,5 +108,9 @@ func NewCombination(cards []*Card) *Combination {
 		}
 	}
 
+	if res.length < 5 && res.width < 2 && res.length != 1 {
+		return nil
+	}
+
 	return res
 }
