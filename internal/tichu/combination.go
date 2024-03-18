@@ -48,7 +48,7 @@ func NewCombination(cards []*Card) *Combination {
 		}
 	}
 
-	// start und ende bestimmen
+	// Define start and end
 	start := 25
 	end := 0
 
@@ -58,6 +58,14 @@ func NewCombination(cards []*Card) *Combination {
 		}
 		if k > end {
 			end = k
+		}
+	}
+
+	// If len=5 -> if a triple and a pair => full house
+	if len(amounts) == 2 && res.length == 5 {
+		//check whether the amounts match the full house pattern
+		if amounts[start] == 3 && amounts[end] == 2 {
+			return res
 		}
 	}
 
