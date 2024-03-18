@@ -30,6 +30,7 @@ func NewCombination(cards []*Card) *Combination {
 		return res
 	}
 
+	// Special case DOG (if Dog is only Card)
 	if len(cards) == 1 {
 		if cards[0].Type == DOG {
 			res.length = -1
@@ -81,6 +82,8 @@ func NewCombination(cards []*Card) *Combination {
 		// If Phoenix is the only card, set the base value of the combination to -1 and return the combination
 		if len(cards) == 1 {
 			res.Base = -1
+			res.length = 1
+			res.width = 1
 			return res
 		}
 
