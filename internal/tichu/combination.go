@@ -30,6 +30,14 @@ func NewCombination(cards []*Card) *Combination {
 		return res
 	}
 
+	if len(cards) == 1 {
+		if cards[0].Type == DOG {
+			res.length = -1
+			res.width = -1
+			return res
+		}
+	}
+
 	// count the amount of each value
 	amounts := map[int]int{}
 
@@ -47,7 +55,7 @@ func NewCombination(cards []*Card) *Combination {
 		}
 	}
 
-	// start und ende bestimmen
+	// Define start and end
 	start := 25
 	end := 0
 
@@ -57,6 +65,14 @@ func NewCombination(cards []*Card) *Combination {
 		}
 		if k > end {
 			end = k
+		}
+	}
+
+	// If len=5 -> if a triple and a pair => full house
+	if len(amounts) == 2 && res.length == 5 {
+		//check whether the amounts match the full house pattern
+		if amounts[start] == 3 && amounts[end] == 2 {
+			return res
 		}
 	}
 
