@@ -30,6 +30,14 @@ func NewCombination(cards []*Card) *Combination {
 		return res
 	}
 
+	if len(cards) == 1 {
+		if cards[0].Type == DOG {
+			res.length = -1
+			res.width = -1
+			return res
+		}
+	}
+
 	// count the amount of each value
 	amounts := map[int]int{}
 
