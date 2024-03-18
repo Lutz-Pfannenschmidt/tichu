@@ -47,8 +47,6 @@ func NewCombination(cards []*Card) *Combination {
 		if !cards[i].Type.IsSpecial() {
 			amounts[cards[i].Type.Value()]++
 		} else {
-			// if it is special card, set the flag
-
 			// if it also is a phoenix, set the flag
 			if cards[i].Type == PHOENIX {
 				containsPhoenix = true
