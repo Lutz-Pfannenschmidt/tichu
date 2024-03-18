@@ -6,7 +6,7 @@ import (
 )
 
 func Compress(player *tichu.Player) []byte {
-	// H H H H H H H P P P P P P P aaaabbbb ccccpqrst wwwwxxxx 000000tt
+	// H H H H H H H P P P P P P P aaaabbbb ccccpqrs wwwwxxxx 000000tt
 	// H = 1 byte of your hand cards
 	// P = 1 byte of the cards lying in the middle
 	// a = 1 bit of the count of hand cards of the opponent with lower game id
@@ -74,6 +74,44 @@ func Compress(player *tichu.Player) []byte {
 	res = append(res, byte(player.Team.Game.Turn&3))
 
 	return res
+}
+
+func Decompress(data []byte, player *tichu.Player) {
+	// H H H H H H H P P P P P P P aaaabbbb ccccpqrs wwwwxxxx 000000tt
+	// H = 1 byte of your hand cards
+	// P = 1 byte of the cards lying in the middle
+	// a = 1 bit of the count of hand cards of the opponent with lower game id
+	// b = 1 bit of the count of hand cards of the opponent with higher game id
+	// c = 1 bit of the count of hand cards of your teammate
+	// p = the bit representing whether the player with game id 0 has won tricks
+	// q = the bit representing whether the player with game id 1 has won tricks
+	// r = the bit representing whether the player with game id 2 has won tricks
+	// s = the bit representing whether the player with game id 3 has won tricks
+	// w = 1 bit of the wished Value
+	// x = 1 bit of the card value the phoenix became if it was played as single card
+	// t = 1 bit of the game id of the player whose turn it is
+
+	DecompressCombination(&player.Hand, [7]byte(data[:7]))
+
+	DecompressCombination(&player.Team.Game.Stack[len(player.Team.Game.Stack)-1].Cards, [7]byte(data[7:14]))
+
+	var ownTeam, oppositeTeam *tichu.Team
+	if player.Team == player.Team.Game.Teams[0] {
+		ownTeam = player.Team.Game.Teams[0]
+		oppositeTeam = player.Team.Game.Teams[1]
+	} else {
+		ownTeam = player.Team.Game.Teams[1]
+		oppositeTeam = player.Team.Game.Teams[0]
+	}
+
+	oppPlayer1 := oppositeTeam.Players[0]
+	oppPlayer2 := oppositeTeam.Players[1]
+
+	oppHandCardsCount := data[14]
+
+	oppPlayer1.Hand = make([]*tichu.Card, 0, oppHandCardsCount>>4)
+	oppPlayer2.Hand = make([]*tichu.Card, 0, oppHandCardsCount&15)
+
 }
 
 func CompressCombination(comb *[]*tichu.Card) [7]byte {
