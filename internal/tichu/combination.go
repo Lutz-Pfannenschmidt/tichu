@@ -15,7 +15,6 @@ type Combination struct {
 
 // NewCombination creates a new Combination from a slice of cards.
 func NewCombination(cards []*Card) *Combination {
-	containsSpecial := false
 	containsPhoenix := false
 
 	// sort the cards by value
@@ -40,7 +39,7 @@ func NewCombination(cards []*Card) *Combination {
 			amounts[cards[i].Type.Value()]++
 		} else {
 			// if it is special card, set the flag
-			containsSpecial = true
+
 			// if it also is a phoenix, set the flag
 			if cards[i].Type == PHOENIX {
 				containsPhoenix = true
@@ -86,11 +85,9 @@ func NewCombination(cards []*Card) *Combination {
 			}
 		}
 
-		// If the minimum and maximum values are equal and the start and end values are different, increment the value associated with the key that is one greater than the end value
 		if min == max && start != end {
 			amounts[end+1]++
 		} else {
-			// Otherwise, increment the value associated with the key that has the minimum value
 			amounts[minKey]++
 		}
 	}
